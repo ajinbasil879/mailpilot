@@ -15,7 +15,12 @@ from email_filter_service import EmailFilterService, EmailCategory
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
+app.config['GMAIL_SCOPES'] = [
+    "https://www.googleapis.com/auth/gmail.modify",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/gmail.readonly"]
 db = SQLAlchemy(app)
 
 # Database Models
@@ -554,6 +559,36 @@ def view_message(email_id, message_id):
     except Exception as e:
         flash(f'Error loading message: {str(e)}')
         return redirect(url_for('view_mail', email_id=email_id))
+
+@app.route('/mark_as_spam/<int:email_id>/<message_id>', methods=['POST'])
+def mark_as_spam(email_id, message_id):
+    print("--- MARK AS SPAM FUNCTION CALLED ---")
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    email_account = EmailAccount.query.get_or_404(email_id)
+    if email_account.user_id != session['user_id']:
+        flash('Access denied!')
+        return redirect(url_for('dashboard'))
+
+    try:
+        credentials = _refresh_credentials_if_needed(email_account)
+        service = build('gmail', 'v1', credentials=credentials)
+
+        # The body of the request to the Gmail API
+        # This adds the 'SPAM' label and removes the 'INBOX' label
+        body = {'addLabelIds': ['SPAM'], 'removeLabelIds': ['INBOX']}
+
+        service.users().messages().modify(
+            userId='me', id=message_id, body=body
+        ).execute()
+
+        flash('Email successfully marked as spam.')
+
+    except Exception as e:
+        flash(f'Error marking email as spam: {str(e)}')
+
+    return redirect(url_for('view_mail', email_id=email_id))
 
 if __name__ == '__main__':
     with app.app_context():
