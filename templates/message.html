@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}{{ subject }} - Message - MailPilot{% endblock %}
+
+{% block content %}
+<!-- Navigation -->
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ url_for('dashboard') }}" class="text-decoration-none">
+                        <i class="fas fa-home me-1"></i>Dashboard
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ url_for('view_mail', email_id=email_account.id) }}" class="text-decoration-none">
+                        <i class="fas fa-envelope me-1"></i>Mail
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-envelope-open me-1"></i>Message
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Message Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-envelope-open fa-2x me-3"></i>
+                        <div>
+                            <h4 class="mb-0 fw-bold">{{ subject }}</h4>
+                            <small class="opacity-75">Email message details</small>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('view_mail', email_id=email_account.id) }}" class="btn btn-outline-light">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Mail
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                            <i class="fas fa-user fa-2x text-primary me-3"></i>
+                            <div>
+                                <div class="fw-semibold text-primary">From</div>
+                                <div class="text-muted">{{ from_addr }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                            <i class="fas fa-user-check fa-2x text-success me-3"></i>
+                            <div>
+                                <div class="fw-semibold text-primary">To</div>
+                                <div class="text-muted">{{ to_addr }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                            <i class="fas fa-clock fa-2x text-info me-3"></i>
+                            <div>
+                                <div class="fw-semibold text-primary">Date</div>
+                                <div class="text-muted">{{ date }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                            <i class="fas fa-fingerprint fa-2x text-warning me-3"></i>
+                            <div>
+                                <div class="fw-semibold text-primary">Message ID</div>
+                                <div class="text-muted small">{{ message_id }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Content -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-secondary text-white">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-align-left fa-2x me-3"></i>
+                        <div>
+                            <h5 class="mb-0 fw-bold">Message Content</h5>
+                            <small class="opacity-75">Email body and content</small>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-light btn-sm" id="toggleView">
+                            <i class="fas fa-eye me-1"></i>Toggle View
+                        </button>
+                        <button type="button" class="btn btn-outline-light btn-sm" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i>Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if body_html %}
+                    <div id="htmlContent" class="message-content">
+                        <div class="alert alert-info d-flex align-items-center mb-4">
+                            <i class="fas fa-info-circle me-3"></i>
+                            <div>
+                                <strong>HTML Content</strong><br>
+                                <small>This message contains formatted HTML content. Use the toggle button to switch between HTML and text view.</small>
+                            </div>
+                        </div>
+                        <div class="border rounded p-4 bg-white">
+                            {{ body_html|safe }}
+                        </div>
+                    </div>
+                    <div id="textContent" class="message-content d-none">
+                        <div class="alert alert-warning d-flex align-items-center mb-4">
+                            <i class="fas fa-exclamation-triangle me-3"></i>
+                            <div>
+                                <strong>Text Content</strong><br>
+                                <small>This is the plain text version of the message. Some formatting may be lost.</small>
+                            </div>
+                        </div>
+                        <div class="border rounded p-4 bg-light">
+                            <pre class="mb-0" style="white-space: pre-wrap; font-family: inherit;">{{ body_text if body_text else 'No text content available.' }}</pre>
+                        </div>
+                    </div>
+                {% elif body_text %}
+                    <div class="message-content">
+                        <div class="alert alert-success d-flex align-items-center mb-4">
+                            <i class="fas fa-check-circle me-3"></i>
+                            <div>
+                                <strong>Text Content</strong><br>
+                                <small>This message contains plain text content.</small>
+                            </div>
+                        </div>
+                        <div class="border rounded p-4 bg-light">
+                            <pre class="mb-0" style="white-space: pre-wrap; font-family: inherit;">{{ body_text }}</pre>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-exclamation-circle fa-4x text-muted mb-4"></i>
+                        <h5 class="text-muted mb-3">No Content Available</h5>
+                        <p class="text-muted">This message doesn't contain any readable content.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body py-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h6 class="text-primary mb-2">
+                            <i class="fas fa-tools me-2"></i>Message Actions
+                        </h6>
+                        <p class="text-muted mb-0">
+                            Additional actions you can perform with this message.
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <div class="d-flex gap-2 justify-content-md-end">
+                            <button class="btn btn-outline-primary" onclick="copyToClipboard('{{ message_id }}')">
+                                <i class="fas fa-copy me-2"></i>Copy ID
+                            </button>
+                            <a href="{{ url_for('view_mail', email_id=email_account.id) }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-list me-2"></i>View All
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.message-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.message-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.message-content pre {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    color: var(--text-secondary);
+}
+
+@media print {
+    .card-header,
+    .btn,
+    .breadcrumb,
+    .alert {
+        display: none !important;
+    }
+    
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .message-content {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle between HTML and text content
+    const toggleBtn = document.getElementById('toggleView');
+    const htmlContent = document.getElementById('htmlContent');
+    const textContent = document.getElementById('textContent');
+    
+    if (toggleBtn && htmlContent && textContent) {
+        toggleBtn.addEventListener('click', function() {
+            if (htmlContent.classList.contains('d-none')) {
+                htmlContent.classList.remove('d-none');
+                textContent.classList.add('d-none');
+                this.innerHTML = '<i class="fas fa-eye me-1"></i>Show Text';
+            } else {
+                htmlContent.classList.add('d-none');
+                textContent.classList.remove('d-none');
+                this.innerHTML = '<i class="fas fa-code me-1"></i>Show HTML';
+            }
+        });
+    }
+    
+    // Copy to clipboard function
+    window.copyToClipboard = function(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            // Show success message
+            const btn = event.target.closest('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check me-2"></i>Copied!';
+            btn.classList.remove('btn-outline-primary');
+            btn.classList.add('btn-success');
+            
+            setTimeout(function() {
+                btn.innerHTML = originalText;
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-outline-primary');
+            }, 2000);
+        }).catch(function(err) {
+            console.error('Failed to copy: ', err);
+            alert('Failed to copy to clipboard');
+        });
+    };
+    
+    // Auto-resize message content
+    const messageContent = document.querySelector('.message-content');
+    if (messageContent) {
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const target = entry.target;
+                if (target.scrollHeight > target.clientHeight) {
+                    target.style.maxHeight = '70vh';
+                }
+            }
+        });
+        resizeObserver.observe(messageContent);
+    }
+});
+</script>
+{% endblock %}
+
+

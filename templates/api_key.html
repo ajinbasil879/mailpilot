@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}API Key Configuration - MailPilot{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <div class="mb-3">
+                    <i class="fas fa-key fa-3x"></i>
+                </div>
+                <h3 class="mb-0 fw-bold">API Key Configuration</h3>
+                <p class="mb-0 opacity-75">Configure your AI API key for intelligent email filtering</p>
+            </div>
+            <div class="card-body p-5">
+                <form method="POST" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="api_provider" class="form-label fw-semibold">
+                            <i class="fas fa-robot text-primary me-2"></i>AI Provider
+                        </label>
+                        <select class="form-select" id="api_provider" name="api_provider" required>
+                            <option value="gemini" selected>Google Gemini</option>
+                        </select>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Using Google Gemini for intelligent email analysis.
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="api_key" class="form-label fw-semibold">
+                            <i class="fas fa-key text-primary me-2"></i>API Key *
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="fas fa-key text-muted"></i>
+                            </span>
+                            <input type="password" class="form-control border-start-0" id="api_key" name="api_key" 
+                                   value="{{ api_key.key if api_key else '' }}" 
+                                   placeholder="Enter your API key" required>
+                            <button class="btn btn-outline-secondary" type="button" id="toggleKey">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide your API key.
+                        </div>
+                        <div class="form-text">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            Your Gemini API key is encrypted and stored securely. It will be used to analyze emails for relevance to your business.
+                        </div>
+                    </div>
+                    
+                    <!-- API Key Instructions -->
+                    <div class="alert alert-info">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-info-circle me-2"></i>How to get your API key:
+                        </h6>
+                        <div id="gemini-instructions">
+                            <p><strong>Google Gemini:</strong></p>
+                            <ol>
+                                <li>Visit <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></li>
+                                <li>Sign in with your Google account</li>
+                                <li>Click "Create API Key"</li>
+                                <li>Copy the generated key and paste it above</li>
+                            </ol>
+                            <div class="alert alert-warning mt-3">
+                                <small>
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    <strong>Note:</strong> Gemini API is free to use with generous rate limits. No credit card required for basic usage.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Actions -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    This Gemini API key enables AI-powered email filtering based on your company details.
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-save me-2"></i>Save API Key
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Features Card -->
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-light">
+                <h6 class="text-primary mb-0">
+                    <i class="fas fa-magic me-2"></i>AI-Powered Features
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-success">
+                            <i class="fas fa-filter me-2"></i>Smart Filtering
+                        </h6>
+                        <p class="text-muted small">Automatically identify emails relevant to your business based on company description and industry.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-info">
+                            <i class="fas fa-tags me-2"></i>Auto Categorization
+                        </h6>
+                        <p class="text-muted small">Categorize emails into business-relevant categories like leads, partnerships, invoices, etc.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation
+    const form = document.querySelector('.needs-validation');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+    
+    // Toggle API key visibility
+    const toggleKeyBtn = document.getElementById('toggleKey');
+    const apiKeyInput = document.getElementById('api_key');
+    
+    toggleKeyBtn.addEventListener('click', function() {
+        const type = apiKeyInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        apiKeyInput.setAttribute('type', type);
+        
+        const icon = this.querySelector('i');
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
+    });
+    
+    // Gemini API is the only provider, no switching needed
+});
+</script>
+{% endblock %}

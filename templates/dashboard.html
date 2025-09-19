@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - MailPilot{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card border-0 shadow-lg">
+            <div class="card-body text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-tachometer-alt fa-4x text-primary mb-3"></i>
+                </div>
+                <h1 class="display-4 fw-bold text-primary mb-3">
+                    Welcome back, {{ user.username }}!
+                </h1>
+                <p class="lead text-secondary mb-4">
+                    Manage your company emails and information from one central location
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="row text-center">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-envelope fa-2x text-success me-3"></i>
+                                    <div class="text-start">
+                                        <div class="h4 mb-0 text-primary">{{ user.email_accounts|length }}</div>
+                                        <small class="text-muted">Connected Accounts</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-building fa-2x text-info me-3"></i>
+                                    <div class="text-start">
+                                        <div class="h4 mb-0 text-primary">{{ '1' if user.company_info else '0' }}</div>
+                                        <small class="text-muted">Company Profile</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Grid -->
+<div class="row g-4">
+    <!-- Email Accounts Card -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-warning text-white">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-envelope fa-2x me-3"></i>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Email Accounts</h5>
+                        <small class="opacity-75">Connected email services</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if user.email_accounts %}
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-semibold text-primary">Connected Accounts ({{ user.email_accounts|length }})</span>
+                            <span class="badge bg-success">Active</span>
+                        </div>
+                        {% for email_account in user.email_accounts %}
+                            <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fab fa-google fa-2x text-danger"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold text-primary">{{ email_account.email }}</div>
+                                        <small class="text-muted">{{ email_account.provider|title }} Account</small>
+                                    </div>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('view_mail', email_id=email_account.id) }}" 
+                                       class="btn btn-outline-warning btn-sm">
+                                        <i class="fas fa-inbox me-1"></i>View Mail
+                                    </a>
+                                    <a href="{{ url_for('reconnect_gmail', email_id=email_account.id) }}" 
+                                       class="btn btn-outline-danger btn-sm" 
+                                       title="Reconnect if having access issues">
+                                        <i class="fas fa-sync-alt me-1"></i>Reconnect
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-envelope fa-4x text-muted mb-4"></i>
+                        <h5 class="text-muted mb-3">No Email Accounts</h5>
+                        <p class="text-muted mb-4">Connect your Gmail account to start managing emails.</p>
+                    </div>
+                {% endif %}
+                <div class="d-grid">
+                    <a href="{{ url_for('add_email') }}" class="btn btn-danger">
+                        <i class="fab fa-google me-2"></i>Connect Gmail Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Company Information Card -->
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-info text-white">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-building fa-2x me-3"></i>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Company Information</h5>
+                        <small class="opacity-75">Manage your business profile</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if user.company_info %}
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                                <i class="fas fa-building text-info me-3"></i>
+                                <div>
+                                    <div class="fw-semibold text-primary">{{ user.company_info.company_name }}</div>
+                                    <small class="text-muted">Company Name</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% if user.company_info.industry %}
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                                <i class="fas fa-industry text-info me-3"></i>
+                                <div>
+                                    <div class="fw-semibold text-primary">{{ user.company_info.industry }}</div>
+                                    <small class="text-muted">Industry</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if user.company_info.phone %}
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                                <i class="fas fa-phone text-info me-3"></i>
+                                <div>
+                                    <div class="fw-semibold text-primary">{{ user.company_info.phone }}</div>
+                                    <small class="text-muted">Phone</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if user.company_info.website %}
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center p-3 bg-light rounded-3">
+                                <i class="fas fa-globe text-info me-3"></i>
+                                <div>
+                                    <div class="fw-semibold text-primary">
+                                        <a href="{{ user.company_info.website }}" target="_blank" class="text-decoration-none">
+                                            {{ user.company_info.website }}
+                                        </a>
+                                    </div>
+                                    <small class="text-muted">Website</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid">
+                        <a href="{{ url_for('company_info') }}" class="btn btn-outline-info">
+                            <i class="fas fa-edit me-2"></i>Edit Company Information
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-building fa-4x text-muted mb-4"></i>
+                        <h5 class="text-muted mb-3">No Company Information</h5>
+                        <p class="text-muted mb-4">Add your company details to get started with professional email management.</p>
+                        <a href="{{ url_for('company_info') }}" class="btn btn-info btn-lg">
+                            <i class="fas fa-plus me-2"></i>Add Company Information
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Configuration Section -->
+<div class="row g-4 mt-4">
+    <div class="col-12">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-robot fa-2x me-3"></i>
+                    <div>
+                        <h5 class="mb-0 fw-bold">AI Email Filtering</h5>
+                        <small class="opacity-75">Configure intelligent email analysis</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="text-center py-4">
+                    <i class="fas fa-key fa-4x text-primary mb-4"></i>
+                    <h5 class="text-primary mb-3">Smart Email Management</h5>
+                    <p class="text-muted mb-4">
+                        Configure your Gemini API key to enable intelligent email filtering and categorization based on your company details.
+                    </p>
+                    <div class="d-grid">
+                        <a href="{{ url_for('api_key') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-cog me-2"></i>Configure AI Filtering
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

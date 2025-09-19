@@ -1,0 +1,625 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - MailPilot{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Professional Email Management
+                        <span class="text-gradient">Made Simple</span>
+                    </h1>
+                    <p class="hero-description">
+                        Streamline your business communications with MailPilot. 
+                        Connect your Gmail accounts, manage company information, 
+                        and boost productivity with our intuitive platform.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-rocket me-2"></i>Get Started Free
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-envelope fa-2x" style="color: #2EC4B6;"></i>
+                        <span>Email Management</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-shield-alt fa-2x" style="color: #90E0EF;"></i>
+                        <span>Secure & Safe</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-chart-line fa-2x" style="color: #FF9F1C;"></i>
+                        <span>Analytics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="section-title">Why Choose MailPilot?</h2>
+                <p class="section-description">
+                    Everything you need to manage your business emails professionally
+                </p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5>Bank-Level Security</h5>
+                    <p>Google OAuth 2.0 authentication ensures your data is always secure and protected.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h5>Lightning Fast</h5>
+                    <p>Optimized for speed and performance to help you manage emails efficiently.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h5>Easy Setup</h5>
+                    <p>Get started in minutes with our simple, intuitive setup process.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h5>Company Management</h5>
+                    <p>Keep your business information organized and up-to-date in one place.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h5>Analytics & Insights</h5>
+                    <p>Track your email performance with detailed analytics and reporting.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h5>24/7 Support</h5>
+                    <p>Get help whenever you need it with our dedicated support team.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="cta-card">
+                    <h2 class="cta-title">Ready to Get Started?</h2>
+                    <p class="cta-description">
+                        Join thousands of professionals who trust MailPilot for their email management needs.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-user-plus me-2"></i>Create Free Account
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </a>
+                    </div>
+                    <div class="cta-features">
+                        <span><i class="fas fa-check me-2"></i>Free Forever</span>
+                        <span><i class="fas fa-check me-2"></i>No Credit Card Required</span>
+                        <span><i class="fas fa-check me-2"></i>Setup in 2 Minutes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #0D1B2A 0%, #1B263B 50%, #415A77 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background-size: cover; /* Ensure background covers the area */
+    background-position: center top; /* Start position for parallax */
+    transition: background-position 0.1s linear; /* Smooth parallax */
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    opacity: 0.3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    animation: fadeInDown 1s ease-out forwards;
+    opacity: 0;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, #2EC4B6, #90E0EF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    animation: fadeIn 1s ease-out 0.5s forwards;
+    opacity: 0;
+}
+
+.hero-buttons {
+    margin-bottom: 3rem;
+    animation: fadeInUp 1s ease-out 1s forwards;
+    opacity: 0;
+}
+
+/* Override btn-primary for this section */
+.hero-buttons .btn-primary {
+    background-color: #2EC4B6;
+    border-color: #2EC4B6;
+}
+.hero-buttons .btn-primary:hover {
+    background-color: #28b5a6;
+    border-color: #28b5a6;
+}
+.hero-buttons .btn-outline-primary {
+    color: white;
+    border-color: white;
+}
+.hero-buttons .btn-outline-primary:hover {
+    background-color: white;
+    color: #0D1B2A;
+}
+
+
+/* Hero Image */
+.hero-image {
+    position: relative;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-card {
+    position: absolute;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    color: #1B263B;
+    animation: float 3s ease-in-out infinite, fadeIn 1s ease-out forwards;
+    opacity: 0;
+    transition: transform 0.3s ease; /* For hover effect */
+    z-index: 2;
+}
+
+.card-1 {
+    top: 15%;
+    right: 15%;
+    animation-delay: 0s, 1.5s;
+}
+
+.card-2 {
+    top: 45%;
+    left: 10%;
+    animation-delay: 1s, 1.8s;
+}
+
+.card-3 {
+    bottom: 25%;
+    right: 25%;
+    animation-delay: 2s, 2.1s;
+}
+
+
+/* Features Section */
+.features-section {
+    background: #f8f9fa;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1B263B;
+    margin-bottom: 1rem;
+}
+
+.section-description {
+    font-size: 1.125rem;
+    color: #778DA9;
+    margin-bottom: 0;
+}
+
+.feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    text-align: center;
+    opacity: 0; /* Initial state for Intersection Observer */
+    transform: translateY(30px); /* Initial state for Intersection Observer */
+}
+
+.feature-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.feature-card .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #1B263B, #415A77);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+}
+
+.feature-card h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1B263B;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: #778DA9;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #1B263B, #0D1B2A);
+    color: white;
+}
+
+.cta-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    opacity: 0; /* Initial state for Intersection Observer */
+    transform: translateY(30px); /* Initial state for Intersection Observer */
+}
+
+.cta-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-description {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.cta-buttons {
+    margin-bottom: 2rem;
+}
+
+.cta-buttons .btn-primary {
+    background-color: #2EC4B6;
+    border-color: #2EC4B6;
+}
+.cta-buttons .btn-primary:hover {
+    background-color: #28b5a6;
+    border-color: #28b5a6;
+}
+
+.cta-features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.cta-features span {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-description {
+        font-size: 1.125rem;
+    }
+    
+    .hero-image {
+        height: 500px;
+        margin-top: 2rem;
+    }
+    
+    .floating-card {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .cta-title {
+        font-size: 2rem;
+    }
+    
+    .cta-card {
+        padding: 2rem;
+    }
+    
+    .cta-features {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-buttons .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-buttons .btn:last-child {
+        margin-bottom: 0;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Intersection Observer for fade-in animations on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe feature cards for staggered animation
+    document.querySelectorAll('.feature-card').forEach((card, index) => {
+        card.style.transitionDelay = `${index * 0.1}s`; // Stagger delay
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+
+    // Observe CTA card
+    const ctaCard = document.querySelector('.cta-card');
+    if (ctaCard) {
+        ctaCard.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        observer.observe(ctaCard);
+    }
+
+    // Parallax effect for hero section background
+    const heroSection = document.querySelector('.hero-section');
+    if (heroSection) {
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            // Adjust the multiplier for more or less parallax effect
+            heroSection.style.backgroundPositionY = `${-scrolled * 0.3}px`;
+        });
+    }
+
+    // Smooth scrolling for anchor links (if any)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add hover effects to floating cards
+    document.querySelectorAll('.floating-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-15px) scale(1.05)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Add ripple effect to buttons
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+});
+
+// Add ripple effect styles dynamically
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
+.btn {
+    position: relative;
+    overflow: hidden;
+    z-index: 1; /* Ensure ripple is above button content but contained */
+}
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+    z-index: 0; /* Keep ripple behind button text */
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Ensure hero content is above the parallax background */
+.hero-content, .hero-image {
+    z-index: 10; 
+    position: relative;
+}
+
+/* Additional modern template styles */
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.3);
+}
+`;
+document.head.appendChild(rippleStyle);
+</script>
+
+{% endblock %}

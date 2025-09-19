@@ -1,0 +1,14 @@
+# Python Virtual Environment - THIS IS THE MOST IMPORTANT FOLDER TO IGNORE
+.venv/
+
+# Python cache
+__pycache__/
+
+# Instance folder with database
+instance/
+
+# Secret and config files
+config.py
+credentials.json
+GOOGLE_OAUTH_SETUP.md
+oauth_debug.py

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Add Email Account - Mail Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-white text-center">
+                <h3 class="mb-0">
+                    <i class="fab fa-google me-2"></i>Connect Gmail Account
+                </h3>
+            </div>
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <i class="fab fa-google fa-5x text-danger mb-3"></i>
+                    <h4>Connect Your Gmail Account</h4>
+                    <p class="lead text-muted">
+                        Securely connect your Gmail account using Google's OAuth 2.0 authentication.
+                        No passwords are stored - only secure access tokens.
+                    </p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card border-success h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                                <h5>Secure & Private</h5>
+                                <ul class="list-unstyled text-start">
+                                    <li><i class="fas fa-check text-success me-2"></i>OAuth 2.0 authentication</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>No passwords stored</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Google-approved access</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Revocable anytime</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card border-info h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-cogs fa-3x text-info mb-3"></i>
+                                <h5>What We Access</h5>
+                                <ul class="list-unstyled text-start">
+                                    <li><i class="fas fa-envelope text-info me-2"></i>Read your emails</li>
+                                    <li><i class="fas fa-user text-info me-2"></i>Basic profile info</li>
+                                    <li><i class="fas fa-times text-danger me-2"></i>Cannot send emails</li>
+                                    <li><i class="fas fa-times text-danger me-2"></i>Cannot delete emails</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('google_login') }}" class="btn btn-danger btn-lg">
+                        <i class="fab fa-google me-2"></i>Sign in with Google
+                    </a>
+                    <p class="text-muted mt-2">
+                        <small>
+                            <i class="fas fa-info-circle me-1"></i>
+                            You'll be redirected to Google's secure login page
+                        </small>
+                    </p>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-question-circle me-2"></i>How it works:</h6>
+                        <ol class="mb-0">
+                            <li>Click "Sign in with Google"</li>
+                            <li>Google shows a consent screen</li>
+                            <li>Review permissions and click "Allow"</li>
+                            <li>Your Gmail account is connected securely</li>
+                            <li>Access your emails from the dashboard</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Important Notes:</h6>
+                    <ul class="text-muted">
+                        <li>You can revoke access anytime from your Google Account settings</li>
+                        <li>We only request read-only access to your emails</li>
+                        <li>Your data remains secure and private</li>
+                        <li>No sensitive information is stored on our servers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
