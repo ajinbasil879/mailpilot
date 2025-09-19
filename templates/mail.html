@@ -198,7 +198,7 @@
                                         {% if email.reasoning %}
                                         <div class="text-info small">
                                             <i class="fas fa-brain me-1"></i>
-                                            <span>{{ email.reasoning[:100] }}{% if email.reasoning|length > 100 %}...{% endif %}</span>
+                                            <span title="{{ email.reasoning }}">{{ email.reasoning[:100] }}{% if email.reasoning|length > 100 %}...{% endif %}</span>
                                         </div>
                                         {% endif %}
                                     </div>

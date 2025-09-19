@@ -46,6 +46,7 @@ class EmailFilterService:
             else:
                 raise ValueError(f"Unsupported provider: {self.provider}")
         except Exception as e:
+            print(f"DEBUG: AI analysis failed with error: {e}")
             # Fallback to basic analysis if API fails
             return self._fallback_analysis(email_data, company_info)
     
@@ -76,7 +77,7 @@ class EmailFilterService:
         }
         
         response = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={self.api_key}",
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={self.api_key}",
             headers=headers,
             json=payload,
             timeout=30
