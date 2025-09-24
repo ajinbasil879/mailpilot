@@ -1,82 +1,38 @@
 {% extends "base.html" %}
 
-{% block title %}Register - MailPilot{% endblock %}
+{% block title %}Create Your MailPilot Account{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
         <div class="card border-0 shadow-lg">
-            <div class="card-header bg-primary text-white text-center py-4">
-                <div class="mb-3">
-                    <i class="fas fa-user-plus fa-3x"></i>
-                </div>
-                <h3 class="mb-0 fw-bold">Join MailPilot</h3>
-                <p class="mb-0 opacity-75">Create your professional email management account</p>
-            </div>
             <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">Create an Account</h2>
+                    <p class="text-muted">Join MailPilot to manage your email intelligently.</p>
+                </div>
+                
                 <form method="POST" class="needs-validation" novalidate>
-                    <div class="mb-4">
-                        <label for="username" class="form-label fw-semibold">
-                            <i class="fas fa-user text-primary me-2"></i>Username
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0">
-                                <i class="fas fa-user text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-start-0" id="username" name="username" 
-                                   placeholder="Choose a username" required minlength="3">
-                        </div>
-                        <div class="form-text">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Choose a unique username (minimum 3 characters)
-                        </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-semibold">Username</label>
+                        <input type="text" class="form-control form-control-lg" id="username" name="username" 
+                               placeholder="Choose a unique username" required minlength="3">
                         <div class="invalid-feedback">
-                            Please provide a valid username (minimum 3 characters).
+                            Please provide a username (minimum 3 characters).
                         </div>
                     </div>
                     
                     <div class="mb-4">
-                        <label for="password" class="form-label fw-semibold">
-                            <i class="fas fa-lock text-primary me-2"></i>Password
-                        </label>
+                        <label for="password" class="form-label fw-semibold">Password</label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0">
-                                <i class="fas fa-lock text-muted"></i>
-                            </span>
-                            <input type="password" class="form-control border-start-0" id="password" name="password" 
+                            <input type="password" class="form-control form-control-lg" id="password" name="password" 
                                    placeholder="Create a strong password" required minlength="6">
-                            <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <div class="form-text">
-                            <i class="fas fa-shield-alt me-1"></i>
-                            Use at least 6 characters for better security
-                        </div>
-                        <div class="invalid-feedback">
-                            Please provide a valid password (minimum 6 characters).
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
-                            <label class="form-check-label text-muted" for="agreeTerms">
-                                I agree to the <a href="#" class="text-primary">Terms of Service</a> and 
-                                <a href="#" class="text-primary">Privacy Policy</a>
-                            </label>
-                            <div class="invalid-feedback">
-                                You must agree to the terms and conditions.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="newsletter">
-                            <label class="form-check-label text-muted" for="newsletter">
-                                Send me updates and tips about MailPilot
-                            </label>
+                         <div class="invalid-feedback">
+                            Please provide a password (minimum 6 characters).
                         </div>
                     </div>
                     
@@ -88,50 +44,9 @@
                 </form>
                 
                 <div class="text-center">
-                    <div class="border-top pt-4">
-                        <p class="text-muted mb-3">
-                            <i class="fas fa-sign-in-alt me-2"></i>
-                            Already have an account?
-                        </p>
-                        <a href="{{ url_for('login') }}" class="btn btn-outline-success">
-                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Benefits Card -->
-        <div class="card border-0 shadow-sm mt-4">
-            <div class="card-body py-4">
-                <h6 class="text-primary mb-3 text-center">
-                    <i class="fas fa-star me-2"></i>Why Choose MailPilot?
-                </h6>
-                <div class="row g-3">
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2"></i>
-                            <small class="text-muted">Free to use</small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2"></i>
-                            <small class="text-muted">Secure OAuth</small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2"></i>
-                            <small class="text-muted">Easy setup</small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2"></i>
-                            <small class="text-muted">Professional</small>
-                        </div>
-                    </div>
+                    <p class="text-muted mb-0">
+                        Already have an account? <a href="{{ url_for('login') }}" class="fw-semibold text-decoration-none">Sign In</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -161,17 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
             event.stopPropagation();
         }
         form.classList.add('was-validated');
-    });
-    
-    // Real-time username validation
-    const usernameInput = document.getElementById('username');
-    usernameInput.addEventListener('input', function() {
-        const username = this.value;
-        if (username.length < 3 && username.length > 0) {
-            this.setCustomValidity('Username must be at least 3 characters long');
-        } else {
-            this.setCustomValidity('');
-        }
     });
 });
 </script>

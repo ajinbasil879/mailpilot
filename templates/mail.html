@@ -35,543 +35,156 @@
     </div>
 </div>
 
-{% if not has_ai_filtering %}
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="alert alert-warning border-0 shadow-sm">
-            <div class="d-flex align-items-center">
-                <i class="fas fa-robot fa-2x text-warning me-3"></i>
-                <div class="flex-grow-1">
-                    <h6 class="alert-heading mb-1">AI Email Filtering Not Configured</h6>
-                    <p class="mb-0">Configure your AI API key to enable intelligent email filtering and categorization based on your company details.</p>
-                </div>
-                <div>
-                    <a href="{{ url_for('api_key') }}" class="btn btn-warning">
-                        <i class="fas fa-key me-2"></i>Configure API Key
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
-
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center py-4">
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                    <i class="fas fa-inbox fa-2x text-success me-3"></i>
-                    <div class="text-start">
-                        <div class="h3 mb-0 text-primary">{{ inbox_emails|length }}</div>
-                        <small class="text-muted">Total Inbox</small>
-                    </div>
-                </div>
-                <div class="progress" style="height: 6px;">
-                    <div class="progress-bar bg-success" style="width: {{ (inbox_emails|length / 20) * 100 if inbox_emails|length <= 20 else 100 }}%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% if has_ai_filtering and filtered_emails %}
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center py-4">
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                    <i class="fas fa-star fa-2x text-warning me-3"></i>
-                    <div class="text-start">
-                        <div class="h3 mb-0 text-primary">{{ filtered_emails.essential|length }}</div>
-                        <small class="text-muted">Essential</small>
-                    </div>
-                </div>
-                <div class="progress" style="height: 6px;">
-                    <div class="progress-bar bg-warning" style="width: {{ (filtered_emails.essential|length / 10) * 100 if filtered_emails.essential|length <= 10 else 100 }}%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center py-4">
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                    <i class="fas fa-list fa-2x text-info me-3"></i>
-                    <div class="text-start">
-                        <div class="h3 mb-0 text-primary">{{ filtered_emails.other|length }}</div>
-                        <small class="text-muted">Other</small>
-                    </div>
-                </div>
-                <div class="progress" style="height: 6px;">
-                    <div class="progress-bar bg-info" style="width: {{ (filtered_emails.other|length / 10) * 100 if filtered_emails.other|length <= 10 else 100 }}%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% else %}
-    <div class="col-md-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center py-4">
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                    <i class="fas fa-robot fa-2x text-muted me-3"></i>
-                    <div class="text-start">
-                        <div class="h3 mb-0 text-muted">-</div>
-                        <small class="text-muted">AI Filtering Disabled</small>
-                    </div>
-                </div>
-                <div class="progress" style="height: 6px;">
-                    <div class="progress-bar bg-secondary" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center py-4">
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                    <i class="fas fa-exclamation-triangle fa-2x text-danger me-3"></i>
-                    <div class="text-start">
-                        <div class="h3 mb-0 text-primary">{{ spam_emails|length }}</div>
-                        <small class="text-muted">Spam</small>
-                    </div>
-                </div>
-                <div class="progress" style="height: 6px;">
-                    <div class="progress-bar bg-danger" style="width: {{ (spam_emails|length / 10) * 100 if spam_emails|length <= 10 else 100 }}%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="row">
     {% if has_ai_filtering and filtered_emails %}
-    <div class="col-12 mb-4">
-        <div class="card h-100">
-            <div class="card-header bg-warning text-dark">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-star fa-2x me-3"></i>
-                        <div>
-                            <h5 class="mb-0 fw-bold">Essential Emails</h5>
-                            <small class="opacity-75">AI-filtered business-critical messages</small>
-                        </div>
-                    </div>
-                    <span class="badge bg-light text-dark fs-6">{{ filtered_emails.essential|length }}</span>
+        <div class="col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-star me-2"></i>Business Critical</h5>
                 </div>
-            </div>
-            <div class="card-body p-0">
-                {% if filtered_emails.essential %}
-                    <div class="list-group list-group-flush">
-                        {% for email in filtered_emails.essential %}
-                            <div class="list-group-item border-0 px-4 py-3 email-item" data-email-id="{{ email.id }}">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <div class="avatar-circle bg-warning text-dark">
-                                            {{ email.from[0].upper() if email.from else '?' }}
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 me-3" style="min-width: 0;">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h6 class="mb-0 fw-semibold text-primary">
-                                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                                   class="text-decoration-none">
-                                                    {{ email.subject if email.subject else '(No Subject)' }}
-                                                </a>
-                                            </h6>
-                                            <div class="d-flex flex-column align-items-end">
-                                                <span class="badge bg-warning text-dark mb-1">{{ email.category|title }}</span>
-                                                <small class="text-muted">{{ "%.0f"|format(email.relevance_score * 100) }}% relevant</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-muted small mb-2">
-                                            <i class="fas fa-user me-1"></i>
-                                            <span class="fw-medium">{{ email.from }}</span>
-                                        </div>
-                                        <div class="text-muted small mb-2">
-                                            <i class="fas fa-clock me-1"></i>
-                                            <span>{{ email.date }}</span>
-                                        </div>
-                                        {% if email.reasoning %}
-                                        <div class="text-info small">
-                                            <i class="fas fa-brain me-1"></i>
-                                            <span title="{{ email.reasoning }}">{{ email.reasoning[:100] }}{% if email.reasoning|length > 100 %}...{% endif %}</span>
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="text-end">
-                                        <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                           class="btn btn-outline-warning btn-sm">
-                                            <i class="fas fa-eye me-1"></i>View
-                                        </a>
-                                        <form action="{{ url_for('mark_as_spam', email_id=email_account.id, message_id=email.id) }}" method="POST" class="d-inline ms-1">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Mark as Spam">
-                                                <i class="fas fa-exclamation-triangle"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                <div class="card-body p-0">
+                    {% if filtered_emails.business_critical %}
+                        {% for email in filtered_emails.business_critical %}
+                        <div class="list-group-item border-bottom px-4 py-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-semibold">{{ email.subject }}</h6>
+                                <small class="text-muted">{{ email.date.split(' ')[0] }}</small>
+                            </div>
+                            <p class="mb-1"><small>{{ email.from }}</small></p>
+                            <div class="d-flex w-100 justify-content-between align-items-center mt-2">
+                                <small class="text-muted fst-italic" title="{{ email.analysis.reasoning }}">
+                                    {{ email.analysis.reasoning[:80] }}{% if email.analysis.reasoning|length > 80 %}...{% endif %}
+                                </small>
+                                <div>
+                                    <span class="badge bg-warning text-dark me-2">{{ email.analysis.category.value|replace('_', ' ')|title }}</span>
+                                    <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                    <form action="{{ url_for('mark_as_spam', email_id=email_account.id, message_id=email.id) }}" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Mark as Spam"><i class="fas fa-ban"></i></button>
+                                    </form>
                                 </div>
                             </div>
-                            {% if not loop.last %}
-                                <hr class="my-0">
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="text-center py-5">
-                        <i class="fas fa-star fa-4x text-muted mb-4"></i>
-                        <h5 class="text-muted mb-3">No Essential Emails</h5>
-                        <p class="text-muted">No emails identified as essential for your business.</p>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-12 mb-4">
-        <div class="card h-100">
-            <div class="card-header bg-info text-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-list fa-2x me-3"></i>
-                        <div>
-                            <h5 class="mb-0 fw-bold">Other Emails</h5>
-                            <small class="opacity-75">Less relevant messages</small>
                         </div>
-                    </div>
-                    <span class="badge bg-light text-dark fs-6">{{ filtered_emails.other|length }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center p-4 text-muted mb-0">No business-critical emails found.</p>
+                    {% endif %}
                 </div>
             </div>
-            <div class="card-body p-0">
-                {% if filtered_emails.other %}
-                    <div class="list-group list-group-flush">
-                        {% for email in filtered_emails.other %}
-                            <div class="list-group-item border-0 px-4 py-3 email-item" data-email-id="{{ email.id }}">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <div class="avatar-circle bg-info text-white">
-                                            {{ email.from[0].upper() if email.from else '?' }}
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 me-3" style="min-width: 0;">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h6 class="mb-0 fw-semibold text-primary">
-                                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                                   class="text-decoration-none">
-                                                    {{ email.subject if email.subject else '(No Subject)' }}
-                                                </a>
-                                            </h6>
-                                            <div class="d-flex flex-column align-items-end">
-                                                <span class="badge bg-info mb-1">{{ email.category|title }}</span>
-                                                <small class="text-muted">{{ "%.0f"|format(email.relevance_score * 100) }}% relevant</small>
-                                            </div>
-                                        </div>
-                                        <div class="text-muted small mb-2">
-                                            <i class="fas fa-user me-1"></i>
-                                            <span class="fw-medium">{{ email.from }}</span>
-                                        </div>
-                                        <div class="text-muted small">
-                                            <i class="fas fa-clock me-1"></i>
-                                            <span>{{ email.date }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-end">
-                                        <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                           class="btn btn-outline-info btn-sm">
-                                            <i class="fas fa-eye me-1"></i>View
-                                        </a>
-                                        <form action="{{ url_for('mark_as_spam', email_id=email_account.id, message_id=email.id) }}" method="POST" class="d-inline ms-1">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Mark as Spam">
-                                                <i class="fas fa-exclamation-triangle"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+        </div>
+
+        <div class="col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-shield-alt me-2"></i>Technical & Security</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if filtered_emails.technical_alert %}
+                        {% for email in filtered_emails.technical_alert %}
+                        <div class="list-group-item border-bottom px-4 py-3">
+                             <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-semibold">{{ email.subject }}</h6>
+                                <small class="text-muted">{{ email.date.split(' ')[0] }}</small>
                             </div>
-                            {% if not loop.last %}
-                                <hr class="my-0">
-                            {% endif %}
+                            <p class="mb-1"><small>{{ email.from }}</small></p>
+                            <div class="text-end">
+                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                <form action="{{ url_for('mark_as_spam', email_id=email_account.id, message_id=email.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Mark as Spam"><i class="fas fa-ban"></i></button>
+                                </form>
+                            </div>
+                        </div>
                         {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="text-center py-5">
-                        <i class="fas fa-list fa-4x text-muted mb-4"></i>
-                        <h5 class="text-muted mb-3">No Other Emails</h5>
-                        <p class="text-muted">All emails are classified as essential.</p>
-                    </div>
-                {% endif %}
+                    {% else %}
+                        <p class="text-center p-4 text-muted mb-0">No technical alerts found.</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-briefcase me-2"></i>Job Applications</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if filtered_emails.job_application %}
+                        {% for email in filtered_emails.job_application %}
+                        <div class="list-group-item border-bottom px-4 py-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-semibold">{{ email.subject }}</h6>
+                                <small class="text-muted">{{ email.date.split(' ')[0] }}</small>
+                            </div>
+                            <p class="mb-1"><small>{{ email.from }}</small></p>
+                            <div class="text-end">
+                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                <form action="{{ url_for('mark_as_spam', email_id=email_account.id, message_id=email.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Mark as Spam"><i class="fas fa-ban"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center p-4 text-muted mb-0">No job applications found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-ban me-2"></i>Spam</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if spam_emails %}
+                         {% for email in spam_emails %}
+                        <div class="list-group-item border-bottom px-4 py-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-semibold">{{ email.subject }}</h6>
+                                <small class="text-muted">{{ email.date.split(' ')[0] }}</small>
+                            </div>
+                            <p class="mb-1"><small>{{ email.from }}</small></p>
+                            <div class="text-end">
+                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center p-4 text-muted mb-0">No spam messages found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
     {% else %}
-    <div class="col-12 mb-4">
-        <div class="card h-100">
-            <div class="card-header bg-success text-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-inbox fa-2x me-3"></i>
-                        <div>
-                            <h5 class="mb-0 fw-bold">Inbox</h5>
-                            <small class="opacity-75">Your important messages</small>
-                        </div>
-                    </div>
-                    <span class="badge bg-light text-dark fs-6">{{ inbox_emails|length }}</span>
+        <div class="col-12">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-inbox me-2"></i>Inbox</h5>
                 </div>
-            </div>
-            <div class="card-body p-0">
-                {% if inbox_emails %}
-                    <div class="list-group list-group-flush">
+                <div class="card-body p-0">
+                     {% if inbox_emails %}
                         {% for email in inbox_emails %}
-                            <div class="list-group-item border-0 px-4 py-3 email-item" data-email-id="{{ email.id }}">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <div class="avatar-circle bg-success text-white">
-                                            {{ email.from[0].upper() if email.from else '?' }}
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 me-3" style="min-width: 0;">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h6 class="mb-0 fw-semibold text-primary">
-                                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                                   class="text-decoration-none">
-                                                    {{ email.subject if email.subject else '(No Subject)' }}
-                                                </a>
-                                            </h6>
-                                            <span class="badge bg-success">Inbox</span>
-                                        </div>
-                                        <div class="text-muted small mb-2">
-                                            <i class="fas fa-user me-1"></i>
-                                            <span class="fw-medium">{{ email.from }}</span>
-                                        </div>
-                                        <div class="text-muted small">
-                                            <i class="fas fa-clock me-1"></i>
-                                            <span>{{ email.date }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-end">
-                                        <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                           class="btn btn-outline-success btn-sm">
-                                            <i class="fas fa-eye me-1"></i>View
-                                        </a>
-                                        <form action="{{ url_for('mark_as_spam', email_id=email_account.id, message_id=email.id) }}" method="POST" class="d-inline ms-1">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Mark as Spam">
-                                                <i class="fas fa-exclamation-triangle"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+                        <div class="list-group-item border-bottom px-4 py-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-semibold">{{ email.subject }}</h6>
+                                <small class="text-muted">{{ email.date.split(' ')[0] }}</small>
                             </div>
-                            {% if not loop.last %}
-                                <hr class="my-0">
-                            {% endif %}
+                            <p class="mb-1"><small>{{ email.from }}</small></p>
+                            <div class="text-end">
+                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                <form action="{{ url_for('mark_as_spam', email_id=email_account.id, message_id=email.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Mark as Spam"><i class="fas fa-ban"></i></button>
+                                </form>
+                            </div>
+                        </div>
                         {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="text-center py-5">
-                        <i class="fas fa-inbox fa-4x text-muted mb-4"></i>
-                        <h5 class="text-muted mb-3">No Messages</h5>
-                        <p class="text-muted">Your inbox is empty. New messages will appear here.</p>
-                    </div>
-                {% endif %}
+                    {% else %}
+                        <p class="text-center p-4 text-muted mb-0">Your inbox is empty.</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
-    
-    <div class="col-12 mb-4">
-        <div class="card h-100">
-            <div class="card-header bg-danger text-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
-                        <div>
-                            <h5 class="mb-0 fw-bold">Spam</h5>
-                            <small class="opacity-75">Filtered messages</small>
-                        </div>
-                    </div>
-                    <span class="badge bg-light text-dark fs-6">{{ spam_emails|length }}</span>
-                </div>
-            </div>
-            <div class="card-body p-0">
-                {% if spam_emails %}
-                    <div class="list-group list-group-flush">
-                        {% for email in spam_emails %}
-                            <div class="list-group-item border-0 px-4 py-3 email-item" data-email-id="{{ email.id }}">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <div class="avatar-circle bg-danger text-white">
-                                            {{ email.from[0].upper() if email.from else '?' }}
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 me-3" style="min-width: 0;">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h6 class="mb-0 fw-semibold text-primary">
-                                                <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                                   class="text-decoration-none">
-                                                    {{ email.subject if email.subject else '(No Subject)' }}
-                                                </a>
-                                            </h6>
-                                            <span class="badge bg-danger">Spam</span>
-                                        </div>
-                                        <div class="text-muted small mb-2">
-                                            <i class="fas fa-user me-1"></i>
-                                            <span class="fw-medium">{{ email.from }}</span>
-                                        </div>
-                                        <div class="text-muted small">
-                                            <i class="fas fa-clock me-1"></i>
-                                            <span>{{ email.date }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-end">
-                                        <a href="{{ url_for('view_message', email_id=email_account.id, message_id=email.id) }}" 
-                                           class="btn btn-outline-danger btn-sm">
-                                            <i class="fas fa-eye me-1"></i>View
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            {% if not loop.last %}
-                                <hr class="my-0">
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="text-center py-5">
-                        <i class="fas fa-exclamation-triangle fa-4x text-muted mb-4"></i>
-                        <h5 class="text-muted mb-3">No Spam</h5>
-                        <p class="text-muted">Great! No spam messages detected.</p>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
 </div>
-
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-info text-white">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-info-circle fa-2x me-3"></i>
-                    <div>
-                        <h5 class="mb-0 fw-bold">Account Information</h5>
-                        <small class="opacity-75">Gmail account details and status</small>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="row g-4">
-                    <div class="col-md-3">
-                        <div class="text-center p-3 bg-light rounded-3">
-                            <i class="fas fa-envelope fa-2x text-info mb-2"></i>
-                            <div class="fw-semibold text-primary text-break">{{ email_account.email }}</div>
-                            <small class="text-muted">Email Address</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="text-center p-3 bg-light rounded-3">
-                            <i class="fab fa-google fa-2x text-danger mb-2"></i>
-                            <div class="fw-semibold text-primary">{{ email_account.provider|title }}</div>
-                            <small class="text-muted">Provider</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="text-center p-3 bg-light rounded-3">
-                            <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
-                            <div class="fw-semibold text-primary">Connected</div>
-                            <small class="text-muted">Status</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="text-center p-3 bg-light rounded-3">
-                            <i class="fas fa-shield-alt fa-2x text-warning mb-2"></i>
-                            <div class="fw-semibold text-primary">OAuth 2.0</div>
-                            <small class="text-muted">Authentication</small>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-4 d-flex gap-2 justify-content-center">
-                    <a href="{{ url_for('add_email') }}" class="btn btn-outline-info">
-                        <i class="fas fa-plus me-2"></i>Add Another Account
-                    </a>
-                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">
-                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-.avatar-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.email-item {
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.email-item:hover {
-    background-color: rgba(37, 99, 235, 0.05);
-    transform: translateX(5px);
-}
-
-.email-item:hover .avatar-circle {
-    transform: scale(1.1);
-}
-
-.progress {
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-bar {
-    transition: width 0.6s ease;
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Add click handlers for email items
-    const emailItems = document.querySelectorAll('.email-item');
-    emailItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            // Don't trigger if clicking on buttons or links
-            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('a') || e.target.closest('button')) {
-                return;
-            }
-            
-            const emailId = this.dataset.emailId;
-            const viewLink = this.querySelector('a[href*="view_message"]');
-            if (viewLink) {
-                window.location.href = viewLink.href;
-            }
-        });
-    });
-    
-    // Add loading state to refresh button
-    const refreshBtn = document.querySelector('button[onclick="location.reload()"]');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', function() {
-            this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Refreshing...';
-            this.disabled = true;
-        });
-    }
-    
-    // Auto-refresh every 5 minutes
-    setInterval(function() {
-        if (document.visibilityState === 'visible') {
-            location.reload();
-        }
-    }, 300000); // 5 minutes
-});
-</script>
 {% endblock %}
