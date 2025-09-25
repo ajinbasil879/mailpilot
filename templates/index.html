@@ -93,6 +93,8 @@
         align-items: center;
         justify-content: center;
         min-height: 400px;
+        perspective: 1000px; /* Adds a 3D perspective for child transforms */
+        cursor: pointer; /* Indicates it's interactive */
     }
     .bg-shape {
         position: absolute;
@@ -102,15 +104,17 @@
         opacity: 0.2;
         border-radius: 2rem;
         transform: rotate(-15deg);
+        transition: transform 0.5s ease, opacity 0.5s ease; /* Smooth transition for animation */
     }
     .mockup-card {
         position: relative;
-        width: 80%;
+        width: 80%; /* Changed to 80% to match the image provided */
         background-color: var(--card-bg);
         border-radius: 1rem;
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--shadow-lg); /* Using a larger shadow for depth */
         overflow: hidden;
         padding: 0.75rem;
+        transition: transform 0.5s ease, box-shadow 0.5s ease; /* Smooth transition for animation */
     }
     .mockup-card img {
         border-radius: 0.5rem;
@@ -163,5 +167,67 @@
     .feature-card p {
         color: var(--text-secondary);
     }
+    /* New styles for smoothening cards and adding hover effects */
+    .card {
+        border: none !important; /* Removes the sharp border line */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important; /* Adds a soft, default shadow */
+        transition: all 0.3s ease-in-out; /* Ensures the hover animation is smooth */
+    }
+
+    .card:hover {
+        transform: translateY(-5px) scale(1.02); /* Lifts and enlarges the card on hover */
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important; /* Adds a more pronounced shadow on hover */
+    }
+    /* Hover animation for the hero visual */
+    .hero-visual:hover .bg-shape {
+        transform: rotate(-10deg) translateY(-10px) translateX(-10px) scale(1.05); /* Blue shape moves up-left and slightly scales */
+        opacity: 0.3; /* Becomes slightly more visible */
+    }
+    .hero-visual:hover .mockup-card {
+        transform: translateY(10px) translateX(10px) rotateX(5deg); /* White card moves down-right and tilts slightly */
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+    }
+    /* CTA Section Styles */
+    .cta-section { 
+        background-color: var(--background-color); 
+        transition: all 0.3s ease; 
+    }
+    
+    .cta-section.is-sticky {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: var(--card-bg);
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        padding: 1rem 0;
+        animation: slideUp 0.5s ease-out;
+    }
+    
+    .cta-title { font-weight: 700; color: var(--text-primary); }
+    .cta-description { color: var(--text-secondary); }
+
+    @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+    
 </style>
+<script>
+    const ctaSection = document.querySelector('.cta-section');
+    const heroSection = document.querySelector('.hero-section');
+
+    if (ctaSection && heroSection) {
+        const heroHeight = heroSection.offsetHeight;
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > heroHeight) {
+                ctaSection.classList.add('is-sticky');
+            } else {
+                ctaSection.classList.remove('is-sticky');
+            }
+        });
+    }
+</script>
 {% endblock %}
