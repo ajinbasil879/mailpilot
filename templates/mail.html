@@ -187,4 +187,51 @@
         </div>
     {% endif %}
 </div>
+<style>
+    /* Smoothen the borders of cards on the mail page */
+    .card {
+        border: none !important; /* Removes the sharp border line */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important; /* Adds a soft, modern shadow */
+    }
+    .card {
+        border: none !important; /* Removes the sharp border line */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important; /* Adds a soft, default shadow */
+        transition: all 0.3s ease-in-out; /* Ensures the hover animation is smooth */
+    }
+
+    .card:hover {
+        transform: translateY(-5px) scale(1.02); /* Lifts and enlarges the card on hover */
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important; /* Adds a more pronounced shadow on hover */
+    }
+     /* New "Cool & Modern" Color Theme for Mail Page Boxes */
+    
+    /* Essential Emails Header */
+    .card-header.bg-warning {
+        background: linear-gradient(135deg, #3B82F6, #2563EB) !important; /* Vibrant Blue Gradient */
+        color: white !important;
+    }
+
+    /* Other Emails Header */
+    .card-header.bg-info {
+        background: linear-gradient(135deg, #64748B, #475569) !important; /* Muted Slate Gradient */
+        color: white !important;
+    }
+
+    /* Spam Header */
+    .card-header.bg-danger {
+        background: linear-gradient(135deg, #EF4444, #DC2626) !important; /* Clear Red Gradient */
+        color: white !important;
+    }
+    
+    /* Inbox Header (when AI is disabled) */
+    .card-header.bg-success {
+        background: linear-gradient(135deg, #10B981, #059669) !important; /* Teal/Green Gradient */
+        color: white !important;
+    }
+    
+    /* Account Info Header */
+    .card-header.bg-info.text-white {
+        background: linear-gradient(135deg, #64748B, #475569) !important; /* Muted Slate Gradient */
+    }
+</style>
 {% endblock %}
